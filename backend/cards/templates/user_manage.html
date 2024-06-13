@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    
+</head>
+<body>
+    <h1>User List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Lastname</th>
+                <th>Email</th>
+                <th>Display Name</th>
+                <th>Phone Number</th>
+                <th>Location</th>
+                <th>Birth Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.display_name }}</td>
+                <td>{{ user.phone_number }}</td>
+                <td>{{ user.location }}</td>
+                <td>{{ user.birth_date }}</td>
+                <td>
+                    <form method="POST" action="{% url 'delete_user' user.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                    <button onclick="editUser('{{ user.id }}', '{{ user.name }}', '{{ user.lastname }}', '{{ user.email }}', '{{ user.display_name }}', '{{ user.phone_number }}', '{{ user.location }}', '{{ user.birth_date }}')">Edit</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Add or Edit User</h2>
+    <form id="userForm" >
+        
+        <input type="hidden" id="user_id" name="user_id">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        
+        <label for="lastname">Lastname:</label>
+        <input type="text" id="lastname" name="lastname" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        
+        <label for="display_name">Display Name:</label>
+        <input type="text" id="display_name" name="display_name" required>
+        
+        <label for="phone_number">Phone Number:</label>
+        <input type="text" id="phone_number" name="phone_number" required>
+        
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required>
+        
+        <label for="birth_date">Birth Date:</label>
+        <input type="date" id="birth_date" name="birth_date" required>
+        
+        <button type="submit">Save User</button>
+    </form>
+
+    <script>
+        function editUser(id, name, lastname, email, display_name, phone_number, location, birth_date) {
+            document.getElementById('user_id').value = id;
+            document.getElementById('name').value = name;
+            document.getElementById('lastname').value = lastname;
+            document.getElementById('email').value = email;
+            document.getElementById('display_name').value = display_name;
+            document.getElementById('phone_number').value = phone_number;
+            document.getElementById('location').value = location;
+            document.getElementById('birth_date').value = birth_date;
+        }
+    </script>
+</body>
+</html>

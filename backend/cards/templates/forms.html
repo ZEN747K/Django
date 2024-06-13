@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <h1 class="header"> Admin Manage </h1>
+    
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Graphics Cards</title>
+    <link rel="stylesheet" href="fromcss.css" />
+</head>
+
+<body>
+    <br>
+    <div class="pro-container">
+        <a class="pro" href="Homepage.html">Home page</a>
+        <a class="pro" href="Search_page.html">Search page</a>
+        <a class="pro" href="Admin.html">Manage user</a>
+        <a class="pro" href="index.html">See all products list </a>
+    </div>
+  
+    <h1>Manage Graphics Cards</h1>
+    <!-- ไว้เพื่มข้อมูลสินค้า,อัฟเดท -->
+    <h2>Add Graphics Card</h2>
+    <form id="addForm">
+        <label for="products">Products:</label>
+        <input type="text" id="products" name="products" required>
+
+        <label for="brand">Brand:</label>
+        <input type="text" id="brand" name="brand" required>
+
+        <label for="model">Model:</label>
+        <input type="text" id="model" name="model" required>
+
+        <label for="slot">Slot:</label>
+        <input type="text" id="slot" name="slot" required>
+
+        <label for="chipset">Chipset:</label>
+        <input type="text" id="chipset" name="chipset" required>
+
+        <label for="series">Series:</label>
+        <input type="text" id="series" name="series" required>
+
+        <label for="gpu_model">GPU Model:</label>
+        <input type="text" id="gpu_model" name="gpu_model" required>
+
+        <label for="gpu_speed_oc">GPU Speed OC:</label>
+        <input type="number" id="gpu_speed_oc" name="gpu_speed_oc" required>
+
+        <label for="gpu_speed_gaming">GPU Speed Gaming:</label>
+        <input type="number" id="gpu_speed_gaming" name="gpu_speed_gaming" required>
+
+        <label for="memory_speed">Memory Speed:</label>
+        <input type="number" id="memory_speed" name="memory_speed" required>
+
+        <label for="memory_size">Memory Size:</label>
+        <input type="number" id="memory_size" name="memory_size" required>
+
+        <label for="memory_type">Memory Type:</label>
+        <input type="text" id="memory_type" name="memory_type" required>
+
+        <label for="cuda_cores">CUDA Cores:</label>
+        <input type="number" id="cuda_cores" name="cuda_cores" required>
+
+        <label for="length">Length:</label>
+        <input type="number" id="length" name="length" required>
+
+        <label for="width">Width:</label>
+        <input type="number" id="width" name="width" required>
+
+        <label for="height">Height:</label>
+        <input type="number" id="height" name="height" required>
+
+        <label for="max_resolution">Max Resolution:</label>
+        <input type="text" id="max_resolution" name="max_resolution" required>
+
+        <label for="directx_support">DirectX Support:</label>
+        <input type="text" id="directx_support" name="directx_support" required>
+
+        <label for="crossfire_sli_support">Crossfire/SLI Support:</label>
+        <input type="text" id="crossfire_sli_support" name="crossfire_sli_support" required>
+
+        <label for="dvi_port">DVI Port:</label>
+        <input type="number" id="dvi_port" name="dvi_port" required>
+
+        <label for="hdmi_port">HDMI Port:</label>
+        <input type="number" id="hdmi_port" name="hdmi_port" required>
+
+        <label for="display_port">Display Port:</label>
+        <input type="number" id="display_port" name="display_port" required>
+
+        <label for="option_port">Option Port:</label>
+        <input type="text" id="option_port" name="option_port" required>
+
+        <label for="power_consumption">Power Consumption:</label>
+        <input type="text" id="power_consumption" name="power_consumption" required>
+
+        <label for="power_supply_requirement">Power Supply Requirement:</label>
+        <input type="number" id="power_supply_requirement" name="power_supply_requirement" required>
+
+        <label for="power_connectors">Power Connectors:</label>
+        <input type="text" id="power_connectors" name="power_connectors" required>
+
+        <label for="warranty_years">Warranty Years:</label>
+        <input type="number" id="warranty_years" name="warranty_years" required>
+
+        <label for="products_id">Products ID:</label>
+        <input type="text" id="products_id" name="products_id" required>
+
+        <button type="button" onclick="addGraphicsCard()">Add Graphics Card</button>
+        <button type="button" onclick="updateGraphicsCard()">Update Graphics Card</button>
+        
+    </form>
+
+    <h2>Delete Graphics Card</h2>
+    <form id="deleteForm">
+        <label for="deleteProductsId">Products ID:</label>
+        <input type="text" id="deleteProductsId" name="deleteProductsId" required>
+        <button type="button" onclick="deleteGraphicsCard()">Delete Graphics Card</button>
+    </form>
+
+
+    <script>
+        // Function to add graphics card
+        function addGraphicsCard() {
+            // Collect values from input fields
+            const products = document.getElementById('products').value;
+            const brand = document.getElementById('brand').value;
+            const model = document.getElementById('model').value;
+            const slot = document.getElementById('slot').value;
+            const chipset = document.getElementById('chipset').value;
+            const series = document.getElementById('series').value;
+            const gpu_model = document.getElementById('gpu_model').value;
+            const gpu_speed_oc = document.getElementById('gpu_speed_oc').value;
+            const gpu_speed_gaming = document.getElementById('gpu_speed_gaming').value;
+            const memory_speed = document.getElementById('memory_speed').value;
+            const memory_size = document.getElementById('memory_size').value;
+            const memory_type = document.getElementById('memory_type').value;
+            const cuda_cores = document.getElementById('cuda_cores').value;
+            const length = document.getElementById('length').value;
+            const width = document.getElementById('width').value;
+            const height = document.getElementById('height').value;
+            const max_resolution = document.getElementById('max_resolution').value;
+            const directx_support = document.getElementById('directx_support').value;
+            const crossfire_sli_support = document.getElementById('crossfire_sli_support').value;
+            const dvi_port = document.getElementById('dvi_port').value;
+            const hdmi_port = document.getElementById('hdmi_port').value;
+            const display_port = document.getElementById('display_port').value;
+            const option_port = document.getElementById('option_port').value;
+            const power_consumption = document.getElementById('power_consumption').value;
+            const power_supply_requirement = document.getElementById('power_supply_requirement').value;
+            const power_connectors = document.getElementById('power_connectors').value;
+            const warranty_years = document.getElementById('warranty_years').value;
+            const products_id = document.getElementById('products_id').value;
+
+            // Send data to the server using fetch
+            fetch('http://localhost:8024/product-webservice/product', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    products,
+                    brand,
+                    model,
+                    slot,
+                    chipset,
+                    series,
+                    gpu_model,
+                    gpu_speed_oc,
+                    gpu_speed_gaming,
+                    memory_speed,
+                    memory_size,
+                    memory_type,
+                    cuda_cores,
+                    length,
+                    width,
+                    height,
+                    max_resolution,
+                    directx_support,
+                    crossfire_sli_support,
+                    dvi_port,
+                    hdmi_port,
+                    display_port,
+                    option_port,
+                    power_consumption,
+                    power_supply_requirement,
+                    power_connectors,
+                    warranty_years,
+                    products_id,
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Function to update graphics card
+        function updateGraphicsCard() {
+    const formData = new FormData(document.getElementById('addForm'));
+    const updateId = document.getElementById('products_id').value; // Ensure this is the correct ID field
+    const jsonData = {};
+    
+    // This assumes that 'addForm' contains all the necessary fields for the GPU
+    formData.forEach((value, key) => {
+        jsonData[key] = value;
+    });
+
+    // Adjust the endpoint to match your server route
+    fetch(`http://localhost:8024/product-webservice/product/${updateId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jsonData),
+    })
+    
+    .catch((error) => {
+        // Log the error to the console and alert the user
+        console.error('Error:', error);
+        alert(`Update failed: ${error.message}`);
+    });
+}
+
+
+    </script>
+    <script>
+        // Function to delete graphics card
+        function deleteGraphicsCard() {
+            // Collect value from input field
+            const deleteProductsId = document.getElementById('deleteProductsId').value;
+
+            // Send data to the server using fetch
+            fetch(`http://localhost:8024/product-webservice/product/${deleteProductsId}`, {
+                method: 'DELETE',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    // Optionally, you can redirect or update the UI
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+
+
+
+</body>
+<br>
+<footer class="footer">
+    <!-- ส่วนของการติดต่อสนับสนุน -->
+    <div class="footer-section">
+        <h3>Support</h3>
+        <ul>
+            <li><a href="#">Report an Issue</a></li>
+            <li><a href="#">Request Assistance</a></li>
+            <li><a href="#">Technical Support</a></li>
+        </ul>
+    </div>
+    <div class="footer-section">
+        <h3>Customer Service</h3>
+        <ul>
+            <li><a href="#">Customer Account Info</a></li>
+            <li><a href="#">Product Delivery</a></li>
+            <li><a href="#">Product Returns</a></li>
+        </ul>
+    </div>
+    <div class="footer-section">
+        <h3>Contact Us</h3>
+        <ul>
+            <li><a href="#">Contact Information</a></li>
+            <li><a href="#">Customer Service Center</a></li>
+        </ul>
+    </div>
+    <div class="footer-section">
+        <h3>Payment Options</h3>
+        <ul>
+            <li><a href="#">Credit Card Payments</a></li>
+            <li><a href="#">Bank Transfers</a></li>
+            <li><a href="#">Bank Account Details</a></li>
+        </ul>
+
+    </div>
+
+</html>

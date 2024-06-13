@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPU Information</title>
+</head>
+<body>
+    <h1>GPU Information</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>GPU ID</th>
+                <th>Products</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Slot</th>
+                <th>Chipset</th>
+                <th>Series</th>
+                <th>GPU Model</th>
+                <th>GPU Speed OC</th>
+                <th>GPU Speed Gaming</th>
+                <th>Memory Speed</th>
+                <th>Memory Size</th>
+                <th>Memory Type</th>
+                <th>CUDA Cores</th>
+                <th>Length</th>
+                <th>Width</th>
+                <th>Height</th>
+                <th>Max Resolution</th>
+                <th>DirectX Support</th>
+                <th>Crossfire SLI Support</th>
+                <th>DVI Port</th>
+                <th>HDMI Port</th>
+                <th>Display Port</th>
+                <th>Option Port</th>
+                <th>Power Consumption</th>
+                <th>Power Supply Requirement</th>
+                <th>Power Connectors</th>
+                <th>Warranty Years</th>
+                <th>Note</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for gpu in GPU_list %}
+            <tr>
+                <td>{{ gpu.products_id }}</td>
+                <td>{{ gpu.GPU_id }}</td>
+                <td>{{ gpu.products }}</td>
+                <td>{{ gpu.brand }}</td>
+                <td>{{ gpu.model }}</td>
+                <td>{{ gpu.slot }}</td>
+                <td>{{ gpu.chipset }}</td>
+                <td>{{ gpu.series }}</td>
+                <td>{{ gpu.gpu_model }}</td>
+                <td>{{ gpu.gpu_speed_oc }}</td>
+                <td>{{ gpu.gpu_speed_gaming }}</td>
+                <td>{{ gpu.memory_speed }}</td>
+                <td>{{ gpu.memory_size }}</td>
+                <td>{{ gpu.memory_type }}</td>
+                <td>{{ gpu.cuda_cores }}</td>
+                <td>{{ gpu.length }}</td>
+                <td>{{ gpu.width }}</td>
+                <td>{{ gpu.height }}</td>
+                <td>{{ gpu.max_resolution }}</td>
+                <td>{{ gpu.directx_support }}</td>
+                <td>{{ gpu.crossfire_sli_support }}</td>
+                <td>{{ gpu.dvi_port }}</td>
+                <td>{{ gpu.hdmi_port }}</td>
+                <td>{{ gpu.display_port }}</td>
+                <td>{{ gpu.option_port }}</td>
+                <td>{{ gpu.power_consumption }}</td>
+                <td>{{ gpu.power_supply_requirement }}</td>
+                <td>{{ gpu.power_connectors }}</td>
+                <td>{{ gpu.warranty_years }}</td>
+                <td>{{ gpu.note }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
