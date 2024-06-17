@@ -1,48 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Customer login</title> <!-- กำหนดชื่อเว็บ -->
-    <style>
-        /* CSS สำหรับกำหนดรูปแบบของตารางและเซลล์ */
-        table, tr, th, td {
-            border: 1px solid black;
-        }
-    </style>
-    <link rel="stylesheet" href="login.css"/> <!-- เชื่อมโยงไฟล์ CSS จาก login.css -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Login</title>
+  
 </head>
-<body class="body">
-    <h1 class="header">Customer login</h1> <!-- หัวข้อหน้าเว็บ -->
-    <br>
-    <a class="pro" href="Homepage.html">Home page</a> <!-- ลิงก์ไปยังหน้า Home page -->
-    <a class="pro" href="Search_page.html">Search page</a> <!-- ลิงก์ไปยังหน้า Search page -->
-    
-    <form onsubmit="return confirm('Are you sure you want to log in as Customer?');" action="Customer"> <!-- หน้าต่างเเจ้งเตือนการส่ง log in -->
-        <!-- ฟอร์มสำหรับเข้าสู่ระบบลูกค้า -->
-        <br>
-        <br>
-        <fieldset>
-            <legend class="center">login</legend> <!-- หัวข้อส่วน login -->
-            <br>
-            Email login:
-            <input type="email" name="login" class="form" placeholder="Your email" required>
-            <!-- ฟิลด์อีเมลสำหรับกรอกอีเมล -->
-            Password:
-            <input type="password" id="passwd" name="passwd" class="form" pattern=".{8,}" title="Need more 7 characters" required>
-            <!-- ฟิลด์รหัสผ่านสำหรับกรอกรหัสผ่าน (ต้องมีอย่างน้อย 8 ตัวอักษร) -->
-            <button type="submit" class="button">Login</button> <!-- ปุ่มเข้าสู่ระบบ -->
-            <button type="reset" class="button">Clear</button> <!-- ปุ่มล้างข้อมูลฟอร์ม -->
-            <br>
-            <br>
-            <h2 class="header">New user? come here and <a class="pro" href="Sing_up _page.html">Sign up</a></h2><!-- ลิงก์ไปยังหน้าลงทะเบียนสมาชิกใหม่ -->
-           
-        </fieldset>
-    </form>
-    <img src="banner.jpg" alt="banner" class="banner"> <!-- รูปภาพแบนเนอร์ -->
-    <footer class="footer">
-        <!-- ส่วนท้ายของหน้าเว็บ -->
-        
-    </footer>
+<body>
+    <div class="login-container">
+        <h1>Customer Login</h1>
+        <form onsubmit="return confirm('Are you sure you want to log in as Customer?');" method="post" action="{% url 'customer_login' %}">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Login</legend>
+                <label for="email">Email login:</label>
+                <input type="email" name="login" id="email" placeholder="Your email" required>
+                <label for="passwd">Password:</label>
+                <input type="password" id="passwd" name="passwd" pattern=".{8,}" title="Need more 7 characters" required>
+                <button type="submit">Login</button>
+                <button type="reset">Clear</button>
+            </fieldset>
+            {% if error %}
+            <p class="error">{{ error }}</p>
+            {% endif %}
+        </form>
+    </div>
 </body>
 </html>
-
-

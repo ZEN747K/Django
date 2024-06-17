@@ -4,87 +4,82 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User List</title>
-    
+    <style>
+        table, tr, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 8px;
+            text-align: left;
+        }
+        th, td {
+            padding: 10px;
+        }
+        .form-section {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <h1>User List</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Lastname</th>
-                <th>Email</th>
-                <th>Display Name</th>
-                <th>Phone Number</th>
-                <th>Location</th>
-                <th>Birth Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-            <tr>
-                <td>{{ user.name }}</td>
-                <td>{{ user.lastname }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.display_name }}</td>
-                <td>{{ user.phone_number }}</td>
-                <td>{{ user.location }}</td>
-                <td>{{ user.birth_date }}</td>
-                <td>
-                    <form method="POST" action="{% url 'delete_user' user.id %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit">Delete</button>
-                    </form>
-                    <button onclick="editUser('{{ user.id }}', '{{ user.name }}', '{{ user.lastname }}', '{{ user.email }}', '{{ user.display_name }}', '{{ user.phone_number }}', '{{ user.location }}', '{{ user.birth_date }}')">Edit</button>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    {{user_list}}
+    
+    <div class="form-section">
+        <h2>Search User by Email</h2>
+        <form method="post" action="{% url 'search_user' %}">
+            {% csrf_token %}
+            <label for="search_email">Email:</label>
+            <input type="email" id="search_email" name="search_email" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
 
-    <h2>Add or Edit User</h2>
-    <form id="userForm" >
-        
-        <input type="hidden" id="user_id" name="user_id">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-        
-        <label for="lastname">Lastname:</label>
-        <input type="text" id="lastname" name="lastname" required>
-        
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        
-        <label for="display_name">Display Name:</label>
-        <input type="text" id="display_name" name="display_name" required>
-        
-        <label for="phone_number">Phone Number:</label>
-        <input type="text" id="phone_number" name="phone_number" required>
-        
-        <label for="location">Location:</label>
-        <input type="text" id="location" name="location" required>
-        
-        <label for="birth_date">Birth Date:</label>
-        <input type="date" id="birth_date" name="birth_date" required>
-        
-        <button type="submit">Save User</button>
-    </form>
+    {% if user_list %}
+    
+    <div class="form-section">
+        <h2>User Details</h2>
+        <table>
+            <tr><td>Name:</td><td>{{ user_list.name }}</td></tr>
+            <tr><td>Lastname:</td><td>{{ user_list.lastname }}</td></tr>
+            <tr><td>Email:</td><td>{{ user_list.email }}</td></tr>
+            <tr><td>Display Name:</td><td>{{ user_list.display_name }}</td></tr>
+            <tr><td>Phone Number:</td><td>{{ user_list.phone_number }}</td></tr>
+            <tr><td>Location:</td><td>{{ user_list.location }}</td></tr>
+            <tr><td>Birth Date:</td><td>{{ user_list.birth_date }}</td></tr>
+        </table>
 
-    <script>
-        function editUser(id, name, lastname, email, display_name, phone_number, location, birth_date) {
-            document.getElementById('user_id').value = id;
-            document.getElementById('name').value = name;
-            document.getElementById('lastname').value = lastname;
-            document.getElementById('email').value = email;
-            document.getElementById('display_name').value = display_name;
-            document.getElementById('phone_number').value = phone_number;
-            document.getElementById('location').value = location;
-            document.getElementById('birth_date').value = birth_date;
-        }
-    </script>
+        <h2>Edit User</h2>
+        <form method="post" action="{% url 'edit_user' user_list.id %}">
+            {% csrf_token %}
+            <input type="hidden" id="user_id" name="user_id" value="{{ user_list.id }}">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="{{ user_list.name }}" required>
+
+            <label for="lastname">Lastname:</label>
+            <input type="text" id="lastname" name="lastname" value="{{ user_list.lastname }}" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ user_list.email }}" required>
+
+            <label for="display_name">Display Name:</label>
+            <input type="text" id="display_name" name="display_name" value="{{ user_list.display_name }}" required>
+
+            <label for="phone_number">Phone Number:</label>
+            <input type="text" id="phone_number" name="phone_number" value="{{ user_list.phone_number }}" required>
+
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" value="{{ user_list.location }}" required>
+
+            <label for="birth_date">Birth Date:</label>
+            <input type="date" id="birth_date" name="birth_date" value="{{ user_list.birth_date }}" required>
+
+            <button type="submit">Save Changes</button>
+        </form>
+
+        <form method="post" action="{% url 'delete_user' user.id %}" style="margin-top: 10px;">
+            {% csrf_token %}
+            <button type="submit" style="background-color: red; color: white;">Delete User</button>
+        </form>
+    </div>
+    {% endif %}
 </body>
 </html>

@@ -12,6 +12,7 @@
         <thead>
             <tr>
                 <th>Store Name</th>
+                <th>Store num</th>
                 <th>Graphics Card ID</th>
                 <th>Brand</th>
                 <th>Model</th>
@@ -20,7 +21,9 @@
         <tbody>
             {% for item in store_gpu_data %}
             <tr>
+                
                 <td>{{ item.store_name }}</td>
+                <td>{{ item.store_num }}</td>
                 <td>{{ item.graphics_card_id }}</td>
                 <td>{{ item.brand }}</td>
                 <td>{{ item.model }}</td>

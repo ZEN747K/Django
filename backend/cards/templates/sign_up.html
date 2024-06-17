@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin login</title>
+   
+    <style>
+        table, tr, th, td {
+            border: 1px solid black;
+        }
+    </style>
+    <!-- ใช้ไฟล์ CSS ชื่อ "login.css" เพื่อสร้างสไตล์ของเว็บไซต์ -->
+    <link rel="stylesheet" href="login.css"/>
+</head>
+<body class="body">
+    <!-- ส่วนหัวเพจ -->
+    <h1 class="header">Sing up</h1>
+    <br>
+    <!-- ลิงก์นำทาง -->
+    <a class="pro" href="Homepage.html">Home page</a>
+    <a class="pro" href="Search_page.html">Search</a>
+    
+    <!-- ฟอร์มลงทะเบียนลูกค้า -->
+    <form onsubmit="return confirm('Are you sure that the information you filtered is correct?');" action="Customer_login.html"> <!-- หน้าต่างเเจ้งเตือนการส่ง sing in -->
+        <br>
+        <br>
+        <!-- Fieldset สำหรับการจัดกลุ่มฟอร์ม -->
+        <fieldset>
+            <!-- Legend สำหรับส่วนข้อมูลส่วนตัว -->
+            <legend class="center" id="Personal">name</legend>
+            <!-- ช่องกรอกข้อมูลชื่อ -->
+            <input type="text" name="firstname" class="form" id="Personal" placeholder="Your name" size="50" required><br><br>
+            <!-- Legend สำหรับนามสกุล -->
+            <legend class="center">lastname</legend><br>
+            <!-- ช่องกรอกข้อมูลนามสกุล -->
+            <input type="text" name="lastname" class="form" id="Personal"placeholder="Your lastname" size="50" required><br><br>
+            <!-- Legend สำหรับอีเมล -->
+            <legend class="center">your email</legend><br>
+            <!-- ช่องกรอกข้อมูลอีเมล -->
+            <input type="email" name="email" class="form" id="Personal" placeholder="Your email"  size="50" required><br><br>
+            <!-- Legend สำหรับรหัสผ่าน -->
+            <legend class="center">password</legend><br>
+            <!-- ช่องกรอกข้อมูลรหัสผ่าน -->
+            <input type="password" id="passwd"  name="passwd" class="form"  pattern=".{8,}"  title="ต้องมีอย่างน้อย 7 ตัวอักษร" size="50" required><br><br>
+            <!-- Legend สำหรับชื่อแสดง -->
+            <legend class="center">name display</legend><br>
+            <!-- ช่องกรอกข้อมูลชื่อแสดง -->
+            <input type="text" name="Name in display" class="form" id="Personal" size="50" required><br><br>
+            <!-- Legend สำหรับหมายเลขโทรศัพท์มือถือ -->
+            <legend class="center">your phone number</legend><br>
+            <!-- ช่องกรอกข้อมูลหมายเลขโทรศัพท์มือถือ -->
+            <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" title="รูปแบบ XXX-XXX-XXXX" id="Personal" required><br><br>
+            <!-- Legend สำหรับที่อยู่ -->
+            <legend class="center">location</legend><br>
+            <!-- กล่องข้อความสำหรับกรอกที่อยู่ -->
+            <textarea rows="4" cols="40" id="Personal" required></textarea><br><br>
+            <!-- Legend สำหรับวันเกิด -->
+            <legend class="center">birth date</legend><br>
+            <!-- ช่องกรอกเลือกวันเกิด -->
+            <input type="date" id="cldBD" required><br><br>
+            <!-- ปุ่มส่งคำขอลงทะเบียน -->
+            <button type="submit" class="button">Sing up</button>
+            <!-- ปุ่มเคลียร์ฟอร์ม -->
+            <button type="reset" class="button">Clear</button>
+            <br>
+            <br>
+            <!-- ลิงก์เพื่อย้อนกลับไปหน้าเข้าสู่ระบบ -->
+            <a class="pro" href="Customer_login.html">back to login</a>
+        </fieldset>
+    </form>
+    <!-- ส่วนท้ายเพจ -->
+    <footer class="footer"></footer>
+    <!-- รูปแบนเนอร์ -->
+    <img src="banner.jpg" alt="banner" class="banner">
+    <!-- เริ่มต้นส่วนท้ายเว็บไซต์ (footer) -->
+    <footer class="footer">
+        <!-- ส่วนข้อมูลเกี่ยวกับการสนับสนุน -->
+        <div class="footer-section">
+            <h3>Support</h3>
+            <ul>
+                <li><a href="#">Report an Issue</a></li>
+                <li><a href="#">Request Assistance</a></li>
+                <li><a href="#">Technical Support</a></li>
+            </ul>
+        </div>
+        <!-- ส่วนข้อมูลเกี่ยวกับบริการลูกค้า -->
+        <div class="footer-section">
+            <h3>Customer Service</h3>
+            <ul>
+                <li><a href="#">Customer Account Info</a></li>
+                <li><a href="#">Product Delivery</a></li>
+                <li><a href="#">Product Returns</a></li>
+            </ul>
+        </div>
+        <!-- ส่วนข้อมูลติดต่อ -->
+        <div class="footer-section">
+            <h3>Contact Us</h3>
+            <ul>
+                <li><a href="#">Contact Information</a></li>
+                <li><a href="#">Customer Service Center</a></li>
+            </ul>
+        </div>
+        <!-- ส่วนข้อมูลเกี่ยวกับวิธีการชำระเงิน -->
+        <div class="footer-section">
+            <h3>Payment Options</h3>
+            <ul>
+                <li><a href="#">Credit Card Payments</a></li>
+                <li><a href="#">Bank Transfers</a></li>
+                <li><a href="#">Bank Account Details</a></li>
+            </ul>
+        </div>
+    </footer>
+    <!-- สิ้นสุดส่วนท้ายเว็บไซต์ (footer) -->
+</body>
+</html>
+
+
+

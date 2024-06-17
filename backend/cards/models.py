@@ -62,8 +62,10 @@ class AdminInfo(models.Model):
     def __str__(self):
         return self.email
 
+
 class Store(models.Model):
     store_id = models.AutoField(primary_key=True)
+    store_num = models.CharField(max_length=255)
     store_name = models.CharField(max_length=255)
     graphics_card_id = models.PositiveIntegerField()
 
