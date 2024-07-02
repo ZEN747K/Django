@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPU Management</title>
+    <style>
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f8f8f8;
+            padding: 10px;
+        }
+        .nav-bar a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #333;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        form div {
+            margin-bottom: 15px;
+        }
+        form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        form input[type="text"],
+        form input[type="number"],
+        form input[type="file"],
+        form input[type="submit"],
+        form button {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        img {
+            max-width: 100px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    {% if user.is_authenticated %}
+    <div class="nav-bar">
+        <span>Welcome, {{ user.username }}</span>
+        <div>
+            <a href="{% url 'user_manage' %}">User Manage</a>
+            <a href="{% url 'gpu_manage' %}">GPU Manage</a>
+            <a href="{% url 'store_manage' %}">Store Manage</a>
+            <a href="{% url 'admin_logout' %}">Logout</a>
+        </div>
+    </div>
+    {% endif %}
+    <h2>All GPUs</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>GPU ID</th>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for gpu in gpus %}
+                <tr>
+                    <td>{{ gpu.GPU_id }}</td>
+                    <td>{{ gpu.brand }}</td>
+                    <td>{{ gpu.model }}</td>
+                    <td>
+                        {% if gpu.image %}
+                        <img src="{{ gpu.image.url }}" alt="GPU Image">
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form method="post" action="{% url 'gpu_manage' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="gpu_id" value="{{ gpu.GPU_id }}">
+                            <button type="submit" name="edit">Edit</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    <div class="form-container">
+        <h1>GPU Management</h1>
+
+        
+
+        <form method="post" action="{% url 'gpu_manage' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                <label for="gpu_id">GPU ID:</label>
+                <input type="text" id="gpu_id" name="gpu_id" value="{{ gpu.GPU_id }}" required>
+            </div>
+            <div>
+                <button type="submit" name="search">Search</button>
+                <button type="submit" name="add_new">Add New GPU</button>
+            </div>
+            {% if gpu %}
+            
+            <div>
+                <label for="brand">Brand:</label>
+                <input type="text" id="brand" name="brand" value="{{ gpu.brand }}" required>
+            </div>
+            <div>
+                <label for="model">Model:</label>
+                <input type="text" id="model" name="model" value="{{ gpu.model }}" required>
+            </div>
+            <div>
+                <label for="slot">Slot:</label>
+                <input type="text" id="slot" name="slot" value="{{ gpu.slot }}" required>
+            </div>
+            <div>
+                <label for="chipset">Chipset:</label>
+                <input type="text" id="chipset" name="chipset" value="{{ gpu.chipset }}" required>
+            </div>
+            <div>
+                <label for="series">Series:</label>
+                <input type="text" id="series" name="series" value="{{ gpu.series }}" required>
+            </div>
+            <div>
+                <label for="gpu_model">GPU Model:</label>
+                <input type="text" id="gpu_model" name="gpu_model" value="{{ gpu.gpu_model }}" required>
+            </div>
+            <div>
+                <label for="gpu_speed_oc">GPU Speed (OC):</label>
+                <input type="number" id="gpu_speed_oc" name="gpu_speed_oc" value="{{ gpu.gpu_speed_oc }}" required>
+            </div>
+            <div>
+                <label for="gpu_speed_gaming">GPU Speed (Gaming):</label>
+                <input type="number" id="gpu_speed_gaming" name="gpu_speed_gaming" value="{{ gpu.gpu_speed_gaming }}" required>
+            </div>
+            <div>
+                <label for="memory_speed">Memory Speed:</label>
+                <input type="number" id="memory_speed" name="memory_speed" value="{{ gpu.memory_speed }}" required>
+            </div>
+            <div>
+                <label for="memory_size">Memory Size:</label>
+                <input type="number" id="memory_size" name="memory_size" value="{{ gpu.memory_size }}" required>
+            </div>
+            <div>
+                <label for="memory_type">Memory Type:</label>
+                <input type="text" id="memory_type" name="memory_type" value="{{ gpu.memory_type }}" required>
+            </div>
+            <div>
+                <label for="cuda_cores">CUDA Cores:</label>
+                <input type="number" id="cuda_cores" name="cuda_cores" value="{{ gpu.cuda_cores }}" required>
+            </div>
+            <div>
+                <label for="length">Length:</label>
+                <input type="number" id="length" name="length" value="{{ gpu.length }}" required>
+            </div>
+            <div>
+                <label for="width">Width:</label>
+                <input type="number" id="width" name="width" value="{{ gpu.width }}" required>
+            </div>
+            <div>
+                <label for="height">Height:</label>
+                <input type="number" id="height" name="height" value="{{ gpu.height }}" required>
+            </div>
+            <div>
+                <label for="max_resolution">Max Resolution:</label>
+                <input type="text" id="max_resolution" name="max_resolution" value="{{ gpu.max_resolution }}" required>
+            </div>
+            <div>
+                <label for="directx_support">DirectX Support:</label>
+                <input type="text" id="directx_support" name="directx_support" value="{{ gpu.directx_support }}" required>
+            </div>
+            <div>
+                <label for="crossfire_sli_support">Crossfire/SLI Support:</label>
+                <input type="text" id="crossfire_sli_support" name="crossfire_sli_support" value="{{ gpu.crossfire_sli_support }}" required>
+            </div>
+            <div>
+                <label for="dvi_port">DVI Port:</label>
+                <input type="number" id="dvi_port" name="dvi_port" value="{{ gpu.dvi_port }}" required>
+            </div>
+            <div>
+                <label for="hdmi_port">HDMI Port:</label>
+                <input type="number" id="hdmi_port" name="hdmi_port" value="{{ gpu.hdmi_port }}" required>
+            </div>
+            <div>
+                <label for="display_port">Display Port:</label>
+                <input type="number" id="display_port" name="display_port" value="{{ gpu.display_port }}" required>
+            </div>
+            <div>
+                <label for="option_port">Option Port:</label>
+                <input type="text" id="option_port" name="option_port" value="{{ gpu.option_port }}" required>
+            </div>
+            <div>
+                <label for="power_consumption">Power Consumption:</label>
+                <input type="text" id="power_consumption" name="power_consumption" value="{{ gpu.power_consumption }}" required>
+            </div>
+            <div>
+                <label for="power_supply_requirement">Power Supply Requirement:</label>
+                <input type="number" id="power_supply_requirement" name="power_supply_requirement" value="{{ gpu.power_supply_requirement }}" required>
+            </div>
+            <div>
+                <label for="power_connectors">Power Connectors:</label>
+                <input type="text" id="power_connectors" name="power_connectors" value="{{ gpu.power_connectors }}" required>
+            </div>
+            <div>
+                <label for="warranty_years">Warranty Years:</label>
+                <input type="number" id="warranty_years" name="warranty_years" value="{{ gpu.warranty_years }}" required>
+            </div>
+            <div>
+                <label for="image">Image:</label>
+                <input type="file" id="image" name="image">
+                {% if gpu.image %}
+                <img src="{{ gpu.image.url }}" alt="GPU Image">
+                {% endif %}
+            </div>
+            <div>
+                <label for="last_modified_by">Last Modified By:</label>
+                <input type="text" id="last_modified_by" name="last_modified_by" value="{{ last_modified_by_name }}" readonly>
+            </div>
+            <div>
+                <button type="submit" name="save">Save</button>
+                <button type="submit" name="delete">Delete</button>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</body>
+</html>

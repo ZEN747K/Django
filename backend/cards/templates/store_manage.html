@@ -4,63 +4,115 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Store and GPU Information</title>
+    <title>Store Management</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 8px;
+        }
+        th, td {
+            padding: 10px;
+        }
+        .form-section {
+            margin-top: 20px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
-    <h1>Store and GPU Information</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Store Name</th>
-                <th>Store Number</th>
-                <th>Graphics Card ID</th>
-                <th>Brand</th>
-                <th>Model</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in store_gpu_data %}
-            <tr>
-                <td>{{ item.store_name }}</td>
-                <td>{{ item.store_num }}</td>
-                <td>{{ item.graphics_card_id }}</td>
-                <td>{{ item.brand }}</td>
-                <td>{{ item.model }}</td>
-                <td>
-                    <form method="POST" action="{% url 'edit_store_gpu' item.id %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit">Edit</button>
-                    </form>
-                    <form method="POST" action="{% url 'delete_store_gpu' item.id %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <h1>Store Management</h1>
+    
+    <div class="form-section">
+        <h2>Search Store by Name</h2>
+        <form method="post" action="{% url 'store_manage' %}">
+            {% csrf_token %}
+            <label for="search_name">Store Name:</label>
+            <input type="text" id="search_name" name="search_name" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    
+    <div class="form-section">
+        <h2>All Stores</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Store Name</th>
+                    <th>Store Number</th>
+                    <th>Graphics Card ID</th>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Products</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for store in stores %}
+                <tr>
+                    <td>{{ store.store_name }}</td>
+                    <td>{{ store.store_num }}</td>
+                    <td>{{ store.graphics_card_id }}</td>
+                    <td>{{ store.gpu.brand }}</td>
+                    <td>{{ store.gpu.model }}</td>
+                    <td>{{ store.products }}</td>
+                    <td>
+                        <form method="post" action="{% url 'store_manage' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="store_id" value="{{ store.store_id }}">
+                            <button type="submit" name="edit">Edit</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+   
+    {% if store %}
+    <div class="form-section">
+        <h2>Edit Store</h2>
+        <form method="post" action="{% url 'edit_store' store.store_id %}">
+            {% csrf_token %}
+            <label for="store_name">Store Name:</label>
+            <input type="text" id="store_name" name="store_name" value="{{ store.store_name }}" required>
 
-    <h2>Add or Edit Store and GPU Information</h2>
-    <form method="POST" action="{% url 'add_store_gpu' %}">
-        {% csrf_token %}
-        <label for="store_name">Store Name:</label>
-        <input type="text" id="store_name" name="store_name" required>
-        
-        <label for="store_num">Store Number:</label>
-        <input type="text" id="store_num" name="store_num" required>
-        
-        <label for="graphics_card_id">Graphics Card ID:</label>
-        <input type="number" id="graphics_card_id" name="graphics_card_id" required>
-        
-        <label for="brand">Brand:</label>
-        <input type="text" id="brand" name="brand" required>
-        
-        <label for="model">Model:</label>
-        <input type="text" id="model" name="model" required>
-        
-        <button type="submit">Add Store and GPU</button>
-    </form>
+            <label for="store_num">Store Number:</label>
+            <input type="text" id="store_num" name="store_num" value="{{ store.store_num }}" required>
+
+            <label for="graphics_card_id">Graphics Card ID:</label>
+            <input type="number" id="graphics_card_id" name="graphics_card_id" value="{{ store.graphics_card_id }}" required>
+            
+            <label for="products">Products:</label>
+            <input type="text" id="products" name="products" value="{{ store.products }}" required>
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+    {% elif error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+    
+    <div class="form-section">
+        <h2>Add Store</h2>
+        <form method="post" action="{% url 'add_store' %}">
+            {% csrf_token %}
+            <label for="store_name">Store Name:</label>
+            <input type="text" id="store_name" name="store_name" required>
+
+            <label for="store_num">Store Number:</label>
+            <input type="text" id="store_num" name="store_num" required>
+
+            <label for="graphics_card_id">Graphics Card ID:</label>
+            <input type="number" id="graphics_card_id" name="graphics_card_id" required>
+
+            <label for="products">Products:</label>
+            <input type="text" id="products" name="products" required>
+
+            <button type="submit">Add Store</button>
+        </form>
+    </div>
 </body>
 </html>
