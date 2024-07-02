@@ -8,12 +8,32 @@
 </head>
 <body>
     <h1>GPU Information</h1>
+    <form method="get" action="{% url 'list' %}">
+        {% csrf_token %}
+        <label for="gpu_id">GPU ID (substring search):</label>
+        <input type="text" id="gpu_id" name="gpu_id">
+
+        <label for="brand">Brand (substring search):</label>
+        <input type="text" id="brand" name="brand">
+
+        <label for="chipset">Chipset (substring search):</label>
+        <input type="text" id="chipset" name="chipset">
+
+        <label for="series">Series (substring search):</label>
+        <input type="text" id="series" name="series">
+
+        <label for="max_resolution">Max Resolution (substring search):</label>
+        <input type="text" id="max_resolution" name="max_resolution">
+
+        <button type="submit">Search</button>
+    </form>
+
     <table border="1">
         <thead>
             <tr>
                 <th>Product ID</th>
                 <th>GPU ID</th>
-                <th>Products</th>
+                <th>Image</th>
                 <th>Brand</th>
                 <th>Model</th>
                 <th>Slot</th>
@@ -40,7 +60,6 @@
                 <th>Power Supply Requirement</th>
                 <th>Power Connectors</th>
                 <th>Warranty Years</th>
-                <th>Note</th>
             </tr>
         </thead>
         <tbody>
@@ -48,7 +67,13 @@
             <tr>
                 <td>{{ gpu.products_id }}</td>
                 <td>{{ gpu.GPU_id }}</td>
-                <td>{{ gpu.products }}</td>
+                <td>
+                    {% if gpu.image %}
+                        <img src="{{ gpu.image.url }}" alt="GPU Image" style="width:100px;height:auto;">
+                    {% else %}
+                        No Image
+                    {% endif %}
+                </td>
                 <td>{{ gpu.brand }}</td>
                 <td>{{ gpu.model }}</td>
                 <td>{{ gpu.slot }}</td>
@@ -75,7 +100,6 @@
                 <td>{{ gpu.power_supply_requirement }}</td>
                 <td>{{ gpu.power_connectors }}</td>
                 <td>{{ gpu.warranty_years }}</td>
-                <td>{{ gpu.note }}</td>
             </tr>
             {% endfor %}
         </tbody>

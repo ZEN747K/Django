@@ -17,11 +17,13 @@
         .form-section {
             margin-top: 20px;
         }
+        .error {
+            color: red;
+        }
     </style>
 </head>
 <body>
     <h1>User List</h1>
-    {{user_list}}
     
     <div class="form-section">
         <h2>Search User by Email</h2>
@@ -33,44 +35,43 @@
         </form>
     </div>
 
-    {% if user_list %}
-    
+    {% if user %}
     <div class="form-section">
         <h2>User Details</h2>
         <table>
-            <tr><td>Name:</td><td>{{ user_list.name }}</td></tr>
-            <tr><td>Lastname:</td><td>{{ user_list.lastname }}</td></tr>
-            <tr><td>Email:</td><td>{{ user_list.email }}</td></tr>
-            <tr><td>Display Name:</td><td>{{ user_list.display_name }}</td></tr>
-            <tr><td>Phone Number:</td><td>{{ user_list.phone_number }}</td></tr>
-            <tr><td>Location:</td><td>{{ user_list.location }}</td></tr>
-            <tr><td>Birth Date:</td><td>{{ user_list.birth_date }}</td></tr>
+            <tr><td>Username:</td><td>{{ user.username }}</td></tr>
+            <tr><td>First Name:</td><td>{{ user.first_name }}</td></tr>
+            <tr><td>Last Name:</td><td>{{ user.last_name }}</td></tr>
+            <tr><td>Email:</td><td>{{ user.email }}</td></tr>
+            <tr><td>Superuser:</td><td>{{ user.is_superuser }}</td></tr>
+            <tr><td>Staff:</td><td>{{ user.is_staff }}</td></tr>
+            <tr><td>Active:</td><td>{{ user.is_active }}</td></tr>
+            <tr><td>Last Modified By:</td>
+                <td>
+                    {% if profile.last_modified_by %}
+                        {{ profile.last_modified_by.username }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+            </tr>
+            
         </table>
 
         <h2>Edit User</h2>
-        <form method="post" action="{% url 'edit_user' user_list.id %}">
+        <form method="post" action="{% url 'edit_user' user.id %}">
             {% csrf_token %}
-            <input type="hidden" id="user_id" name="user_id" value="{{ user_list.id }}">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" value="{{ user_list.name }}" required>
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required>
 
-            <label for="lastname">Lastname:</label>
-            <input type="text" id="lastname" name="lastname" value="{{ user_list.lastname }}" required>
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required>
 
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="{{ user_list.email }}" required>
+            <input type="email" id="email" name="email" value="{{ user.email }}" required>
 
-            <label for="display_name">Display Name:</label>
-            <input type="text" id="display_name" name="display_name" value="{{ user_list.display_name }}" required>
-
-            <label for="phone_number">Phone Number:</label>
-            <input type="text" id="phone_number" name="phone_number" value="{{ user_list.phone_number }}" required>
-
-            <label for="location">Location:</label>
-            <input type="text" id="location" name="location" value="{{ user_list.location }}" required>
-
-            <label for="birth_date">Birth Date:</label>
-            <input type="date" id="birth_date" name="birth_date" value="{{ user_list.birth_date }}" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
 
             <button type="submit">Save Changes</button>
         </form>
@@ -80,6 +81,8 @@
             <button type="submit" style="background-color: red; color: white;">Delete User</button>
         </form>
     </div>
+    {% elif error %}
+    <p class="error">{{ error }}</p>
     {% endif %}
 </body>
 </html>

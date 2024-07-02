@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Management</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 8px;
+        }
+        th, td {
+            padding: 10px;
+        }
+        .form-section {
+            margin-top: 20px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>Store Management</h1>
+    
+    <div class="form-section">
+        <h2>Search Store by Name</h2>
+        <form method="post" action="{% url 'store_manage' %}">
+            {% csrf_token %}
+            <label for="search_name">Store Name:</label>
+            <input type="text" id="search_name" name="search_name" required>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+   
+    {% if store %}
+
+    {{store.store_name}} {{store.store_id}} {{store}}
+
+    <div class="form-section">
+        
+        <h2>Store Details</h2>
+        <table>
+            <tr><td>Store Name:</td><td>{{ store.store_name }}</td></tr>
+            <tr><td>Store Number:</td><td>{{ store.store_num }}</td></tr>
+            <tr><td>Graphics Card ID:</td><td>{{ store.graphics_card_id }}</td></tr>
+            <tr><td>Brand:</td><td>{{ store.gpu.brand }}</td></tr>
+            <tr><td>Model:</td><td>{{ store.gpu.model }}</td></tr>
+            <tr><td>Products:</td><td>{{ store.products }}</td></tr>
+            <tr><td>Last Modified By:</td>
+                <td>
+                    {% if store.last_modified_by %}
+                        {{ store.last_modified_by.username }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+            </tr>
+            <tr><td>Last Modified At:</td><td>{{ store.last_modified_at }}</td></tr>
+        </table>
+
+        <h2>Edit Store</h2>
+        <form method="post" action="{% url 'edit_store' store.store_id %}">
+            {% csrf_token  %}
+            <label for="store_name">Store Name:</label>
+            <input type="text" id="store_name" name="store_name" value="{{ store.store_name }}" required>
+
+            <label for="store_num">Store Number:</label>
+            <input type="text" id="store_num" name="store_num" value="{{ store.store_num }}" required>
+
+            <label for="graphics_card_id">Graphics Card ID:</label>
+            <input type="number" id="graphics_card_id" name="graphics_card_id" value="{{ store.graphics_card_id }}" required>
+            
+
+            <label for="products">Products:</label>
+            <input type="text" id="products" name="products" value="{{ store.products }}" required>
+
+            <button type="submit">Save Changes</button>
+        </form>
+
+
+    </div>
+    {% elif error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+    
+    <div class="form-section">
+        <h2>Add Store</h2>
+        <form method="post" action="{% url 'add_store' %}">
+            {% csrf_token %}
+            <label for="store_name">Store Name:</label>
+            <input type="text" id="store_name" name="store_name" required>
+
+            <label for="store_num">Store Number:</label>
+            <input type="text" id="store_num" name="store_num" required>
+
+            <label for="graphics_card_id">Graphics Card ID:</label>
+            <input type="number" id="graphics_card_id" name="graphics_card_id" required>
+
+            <label for="products">products:</label>
+            <input type="number" id="products" name="products" required>
+
+            <button type="submit">Add Store</button>
+        </form>
+    </div>
+</body>
+</html>

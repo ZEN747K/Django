@@ -1,61 +1,53 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- กำหนดหัวเรื่องของเว็บไซต์ -->
-    <title>Admin login</title>
-    
-    <!-- กำหนดรูปแบบ CSS ในหัวข้อ style -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
     <style>
-        /* กำหนดรูปแบบของตารางและข้อมูลในตาราง */
-        table, tr, th, td {
-            border: 1px solid black;
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f8f8f8;
+            padding: 10px;
         }
-    </style>
-    
-    <!-- ใช้ไฟล์ CSS ชื่อ "login1.css" เพื่อสร้างสไตล์ของเว็บไซต์ -->
-    <link rel="stylesheet" href="admin_login1.css"/>
-</head>
-<body class="body">
-    <!-- ส่วนหัวเรื่องของเว็บไซต์ -->
-    <h1 class="header">Admin login</h1>
-    <br>
-    
-    <!-- ลิงก์ไปยังหน้าหลัก (Home page) -->
-    <a class="pro" href="Homepage.html">Home page</a>
-    
-    <!-- แบบฟอร์มสำหรับการเข้าสู่ระบบของ Admin -->
-    <form onsubmit="return confirm('Are you sure you want to log in as Admin?');" action="GPU"> <!-- หน้าต่างเเจ้งเตือนการส่ง log in -->
-        <br>
-        <br>
+        .nav-bar a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #333;
+        }
         
-        <!-- กล่องแสดงกรอกข้อมูลและปุ่มสำหรับการ submit และ reset -->
-        <fieldset>
-            <!-- หัวข้อย่อยของแบบฟอร์ม -->
-            <legend class="center">Login Admin only</legend>
-            <br>
-            
-            <!-- ช่องกรอกอีเมล์ -->
-            Email login:
-            <input type="email" name="login" class="form"  placeholder="Your email"  required  >
-            
-            <!-- ช่องกรอกรหัสผ่าน -->
-            Password:
-            <input type="password" id="passwd"  name="passwd" class="form"  pattern=".{8,}"  title="Need more 7 characters" required>
-            
-            <!-- ช่องกรอกหมายเลขโทรศัพท์ -->
-            Your Mobile:
-            <input type="tel"  name="Mobile" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" title="XXX-XXX-XXXX"  class="form" required >
-            
-            <!-- ปุ่มสำหรับ submit และ clear -->
-            <button type="submit" class="button" >Login</button>
-            <button type="reset" class="button">Clear</button>
-            <br>
-            <br>
-        </fieldset>
-    </form>
-    
-    <!-- ส่วนท้ายของหน้าเว็บ -->
-    <footer class="footer" ></footer>
+    </style>
+</head>
+<body>
+    {% if user.is_authenticated %}
+    <div class="nav-bar">
+        <span>Welcome, {{ user.username }}</span>
+        <div>
+            <a href="{% url 'user_manage' %}">User Manage</a>
+            <a href="{% url 'gpu_manage' %}">GPU Manage</a>
+            <a href="{% url 'store_manage' %}">Store Manage</a>
+            <a href="{% url 'admin_logout' %}">Logout</a>
+        </div>
+    </div>
+    {% endif %}
+    <div class="login-container">
+        <h1>Admin Login</h1>
+        <form onsubmit="return confirm('Are you sure you want to log in as Admin?');" method="post" action="{% url 'admin_login' %}">
+            {% csrf_token %}
+            <fieldset>
+                <legend>Login</legend>
+                <label for="email">Email login:</label>
+                <input type="email" name="login" id="email" placeholder="Your email" required>
+                <label for="passwd">Password:</label>
+                <input type="password" id="passwd" name="passwd" pattern=".{8,}" title="Need more than 7 characters" required>
+                <button type="submit">Login</button>
+                <button type="reset">Clear</button>
+            </fieldset>
+            {% if error %}
+            <p class="error">{{ error }}</p>
+            {% endif %}
+        </form>
+    </div>
 </body>
 </html>
