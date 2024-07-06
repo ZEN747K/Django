@@ -13,8 +13,8 @@ urlpatterns = [
     path('admin_login', views.admin_login,name='admin_login'),
     path('admin_logout', views.admin_logout,name='admin_logout'),
     path('gpu_manage', views.gpu_manage,name='gpu_manage'),
-    path('Customer', views.Customer,name='Customer'),
-    
+    path('Customer', views.Customer,name='Customer'),   
+    path('signup', views.signup, name='signup'),
     path('user_manage/', views.user_manage, name='user_manage'),
     path('search_user/', views.search_user, name='search_user'),
     path('edit_user/<int:user_id>/', views.edit_user, name='edit_user'),

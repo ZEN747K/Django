@@ -155,7 +155,36 @@ def gpu_manage(request):
 
 
 
+def signup(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        email = request.POST['email']
 
+        if User.objects.filter(username=username).exists():
+            messages.error(request, 'This username already exists.')
+            return render(request, 'sign_up.html')
+
+        if User.objects.filter(email=email).exists():
+            messages.error(request, 'This email already exists.')
+            return render(request, 'sign_up.html')
+
+        user = User.objects.create_user(
+            is_staff=False,
+            is_superuser=False,
+            username=username,
+            password=password,
+            first_name=first_name,
+            last_name=last_name,
+            email=email
+        )
+        user.save()
+        messages.success(request, 'Registration successful')
+        return redirect('customer_login')  
+
+    return render(request, 'sign_up.html')
 
 
 
@@ -202,7 +231,6 @@ def Customer(request):
 
 
 
-
 @login_required
 def user_manage(request):
     user = request.user
@@ -237,6 +265,8 @@ def edit_user(request, user_id):
         user.save()
 
         profile.last_modified_by = request.user
+        if 'profile_picture' in request.FILES:
+            profile.profile_picture = request.FILES['profile_picture']
         profile.save()
 
         return redirect('user_manage')

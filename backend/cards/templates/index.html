@@ -5,104 +5,203 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPU Information</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .nav-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            background-color: #4CAF50;
+            padding: 10px;
+            color: white;
+        }
+        .nav-bar a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: white;
+        }
+        .container {
+            width:auto;
+            max-width: 95%;
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        form label {
+            display: flex;
+            flex-direction: column;
+            font-weight: bold;
+        }
+        form input, form button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            grid-column: span 2; /* Adjust this value based on your needs */
+        }
+        form button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            min-width: 2200px; /* Ensure table doesn't shrink below this width */
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            white-space: nowrap; /* Prevent cell content from wrapping */
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        img {
+            max-width: 100px;
+            height: auto;
+        }
+        .error {
+            color: red;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>GPU Information</h1>
-    <form method="get" action="{% url 'list' %}">
-        {% csrf_token %}
-        <label for="gpu_id">GPU ID (substring search):</label>
-        <input type="text" id="gpu_id" name="gpu_id">
+    <div class="nav-bar">
+        <span>Welcome</span>
+        <div>
+            <a href="{% url 'user_manage' %}">User Manage</a>
+            <a href="{% url 'admin_logout' %}">Logout</a>
+        </div>
+    </div>
 
-        <label for="brand">Brand (substring search):</label>
-        <input type="text" id="brand" name="brand">
+    <div class="container">
+        <h1>GPU Information</h1>
+        <form method="get" action="{% url 'list' %}">
+            {% csrf_token %}
+            <label for="gpu_id">GPU ID (search):
+                <input type="text" id="gpu_id" name="gpu_id">
+            </label>
+            <label for="brand">Brand (search):
+                <input type="text" id="brand" name="brand">
+            </label>
+            <label for="chipset">Chipset (search):
+                <input type="text" id="chipset" name="chipset">
+            </label>
+            <label for="series">Series (search):
+                <input type="text" id="series" name="series">
+            </label>
+            <label for="max_resolution">Max Resolution (search):
+                <input type="text" id="max_resolution" name="max_resolution">
+            </label>
+            <button type="submit">Search</button>
+        </form>
+        
 
-        <label for="chipset">Chipset (substring search):</label>
-        <input type="text" id="chipset" name="chipset">
-
-        <label for="series">Series (substring search):</label>
-        <input type="text" id="series" name="series">
-
-        <label for="max_resolution">Max Resolution (substring search):</label>
-        <input type="text" id="max_resolution" name="max_resolution">
-
-        <button type="submit">Search</button>
-    </form>
-
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Product ID</th>
-                <th>GPU ID</th>
-                <th>Image</th>
-                <th>Brand</th>
-                <th>Model</th>
-                <th>Slot</th>
-                <th>Chipset</th>
-                <th>Series</th>
-                <th>GPU Model</th>
-                <th>GPU Speed OC</th>
-                <th>GPU Speed Gaming</th>
-                <th>Memory Speed</th>
-                <th>Memory Size</th>
-                <th>Memory Type</th>
-                <th>CUDA Cores</th>
-                <th>Length</th>
-                <th>Width</th>
-                <th>Height</th>
-                <th>Max Resolution</th>
-                <th>DirectX Support</th>
-                <th>Crossfire SLI Support</th>
-                <th>DVI Port</th>
-                <th>HDMI Port</th>
-                <th>Display Port</th>
-                <th>Option Port</th>
-                <th>Power Consumption</th>
-                <th>Power Supply Requirement</th>
-                <th>Power Connectors</th>
-                <th>Warranty Years</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for gpu in GPU_list %}
-            <tr>
-                <td>{{ gpu.products_id }}</td>
-                <td>{{ gpu.GPU_id }}</td>
-                <td>
-                    {% if gpu.image %}
-                        <img src="{{ gpu.image.url }}" alt="GPU Image" style="width:100px;height:auto;">
-                    {% else %}
-                        No Image
-                    {% endif %}
-                </td>
-                <td>{{ gpu.brand }}</td>
-                <td>{{ gpu.model }}</td>
-                <td>{{ gpu.slot }}</td>
-                <td>{{ gpu.chipset }}</td>
-                <td>{{ gpu.series }}</td>
-                <td>{{ gpu.gpu_model }}</td>
-                <td>{{ gpu.gpu_speed_oc }}</td>
-                <td>{{ gpu.gpu_speed_gaming }}</td>
-                <td>{{ gpu.memory_speed }}</td>
-                <td>{{ gpu.memory_size }}</td>
-                <td>{{ gpu.memory_type }}</td>
-                <td>{{ gpu.cuda_cores }}</td>
-                <td>{{ gpu.length }}</td>
-                <td>{{ gpu.width }}</td>
-                <td>{{ gpu.height }}</td>
-                <td>{{ gpu.max_resolution }}</td>
-                <td>{{ gpu.directx_support }}</td>
-                <td>{{ gpu.crossfire_sli_support }}</td>
-                <td>{{ gpu.dvi_port }}</td>
-                <td>{{ gpu.hdmi_port }}</td>
-                <td>{{ gpu.display_port }}</td>
-                <td>{{ gpu.option_port }}</td>
-                <td>{{ gpu.power_consumption }}</td>
-                <td>{{ gpu.power_supply_requirement }}</td>
-                <td>{{ gpu.power_connectors }}</td>
-                <td>{{ gpu.warranty_years }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>GPU ID</th>
+                    <th>Image</th>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Slot</th>
+                    <th>Chipset</th>
+                    <th>Series</th>
+                    <th>GPU Model</th>
+                    <th>GPU Speed OC</th>
+                    <th>GPU Speed Gaming</th>
+                    <th>Memory Speed</th>
+                    <th>Memory Size</th>
+                    <th>Memory Type</th>
+                    <th>CUDA Cores</th>
+                    <th>Length</th>
+                    <th>Width</th>
+                    <th>Height</th>
+                    <th>Max Resolution</th>
+                    <th>DirectX Support</th>
+                    <th>Crossfire SLI Support</th>
+                    <th>DVI Port</th>
+                    <th>HDMI Port</th>
+                    <th>Display Port</th>
+                    <th>Option Port</th>
+                    <th>Power Consumption</th>
+                    <th>Power Supply Requirement</th>
+                    <th>Power Connectors</th>
+                    <th>Warranty Years</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for gpu in GPU_list %}
+                <tr>
+                    <td>{{ gpu.products_id }}</td>
+                    <td>{{ gpu.GPU_id }}</td>
+                    <td>
+                        {% if gpu.image %}
+                            <img src="{{ gpu.image.url }}" alt="GPU Image">
+                        {% else %}
+                            No Image
+                        {% endif %}
+                    </td>
+                    <td>{{ gpu.brand }}</td>
+                    <td>{{ gpu.model }}</td>
+                    <td>{{ gpu.slot }}</td>
+                    <td>{{ gpu.chipset }}</td>
+                    <td>{{ gpu.series }}</td>
+                    <td>{{ gpu.gpu_model }}</td>
+                    <td>{{ gpu.gpu_speed_oc }}</td>
+                    <td>{{ gpu.gpu_speed_gaming }}</td>
+                    <td>{{ gpu.memory_speed }}</td>
+                    <td>{{ gpu.memory_size }}</td>
+                    <td>{{ gpu.memory_type }}</td>
+                    <td>{{ gpu.cuda_cores }}</td>
+                    <td>{{ gpu.length }}</td>
+                    <td>{{ gpu.width }}</td>
+                    <td>{{ gpu.height }}</td>
+                    <td>{{ gpu.max_resolution }}</td>
+                    <td>{{ gpu.directx_support }}</td>
+                    <td>{{ gpu.crossfire_sli_support }}</td>
+                    <td>{{ gpu.dvi_port }}</td>
+                    <td>{{ gpu.hdmi_port }}</td>
+                    <td>{{ gpu.display_port }}</td>
+                    <td>{{ gpu.option_port }}</td>
+                    <td>{{ gpu.power_consumption }}</td>
+                    <td>{{ gpu.power_supply_requirement }}</td>
+                    <td>{{ gpu.power_connectors }}</td>
+                    <td>{{ gpu.warranty_years }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
