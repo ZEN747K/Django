@@ -29,7 +29,7 @@ def customer_login(request):
             user = User.objects.get(email=email)
             if check_password(password, user.password):
                 login(request, user)
-                return redirect('customer_login')
+                return redirect('list')
             else:
                 return render(request, 'customer_login.html', {'error': 'Invalid login credentials'})
         except User.DoesNotExist:
